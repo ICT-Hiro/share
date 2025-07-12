@@ -1,15 +1,89 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>リダイレクト中...</title>
-  <script>
-    // ページ読み込み時にGoogleへリダイレクト
-    window.location.href = "https://docs.google.com/document/d/19xtPQihNwrwc8IUjr-SmzCuILVLVZPd5hjg6syPlv3Q/edit?usp=drivesdk";
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>志望理由書下書きリンク集</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+        }
+        .link-item {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .link-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+    </style>
 </head>
-<body>
-  <p>Redirecting...</p>
+<body class="antialiased text-gray-800">
+    <div class="min-h-screen flex flex-col items-center p-4">
+        <header class="w-full max-w-3xl text-center mb-8 mt-8">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+                    志望理由書一覧
+                </span>
+            </h1>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                小谷　泰慶
+            </p>
+        </header>
+
+        <main class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">リンク一覧</h2>
+            <div id="linksList" class="space-y-4">
+                <!-- JavaScriptによってリンクがここに挿入されます -->
+                <p class="text-gray-500 text-center" id="loading-message">リンクを読み込み中...</p>
+            </div>
+        </main>
+
+        <footer class="w-full max-w-3xl text-center mt-10 text-gray-500 text-sm">
+            <p>&copy; 2025 下書きWebページリンク集. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // ページ読み込み時に追加する志望理由書のリンクデータ
+        // このオブジェクトにリンクを追加してください
+        const draftLinks = {
+            "https://docs.google.com/document/d/19xtPQihNwrwc8IUjr-SmzCuILVLVZPd5hjg6syPlv3Q/edit?tab=t.0": "電気通信大学-志望理由書-下書き1"
+        };
+
+        /**
+         * リンクを動的に生成し、リストに追加する関数
+         */
+        function loadLinks() {
+            const linksList = document.getElementById('linksList');
+            linksList.innerHTML = ''; // 既存のメッセージをクリア
+
+            if (Object.keys(draftLinks).length === 0) {
+                linksList.innerHTML = '<p class="text-gray-500 text-center">まだリンクがありません。</p>';
+                return;
+            }
+
+            for (const url in draftLinks) {
+                const title = draftLinks[url];
+
+                const linkDiv = document.createElement('div');
+                linkDiv.className = 'link-item flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200';
+                linkDiv.innerHTML = `
+                    <div>
+                        <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-lg font-medium block">${title}</a>
+                        <p class="text-gray-500 text-sm truncate">${url}</p>
+                    </div>
+                `;
+                linksList.appendChild(linkDiv);
+            }
+        }
+
+        // ページが完全に読み込まれた後にリンクをロード
+        window.onload = loadLinks;
+    </script>
 </body>
 </html>
